@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import com.ernestoborges.model.Processos;
@@ -26,7 +25,8 @@ public class ProcessosRepository implements Serializable {
 	}
 
 	public List<Processos> buscaProcesso(String numeroDoprocesso) {
-		TypedQuery<Processos> query = manager.createQuery("from Processos where numeroDoprocesso like :numeroDoprocesso", Processos.class);
+		String jpql ="from Processos where numeroDoprocesso like :numeroDoprocesso";
+		TypedQuery<Processos> query = manager.createQuery(jpql, Processos.class);
 		query.setParameter("numeroDoprocesso", numeroDoprocesso + "%");
 		return query.getResultList();
 	}
