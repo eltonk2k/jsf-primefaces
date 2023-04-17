@@ -21,6 +21,7 @@ public class SchemaGeneration {
 		
 		emf.close();
 		em.close();
+		
 	}
 
 }
