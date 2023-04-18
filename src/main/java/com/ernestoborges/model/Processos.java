@@ -18,14 +18,14 @@ public class Processos implements Serializable {
 	
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	@Column(name = "numero_do_processo", nullable = false, length = 80)
 	private String numeroDoprocesso;
 	
 	@ManyToOne
-	@JoinColumn(name = "cliente")
+	@JoinColumn(name = "cliente", nullable = false)
 	private Clientes cliente;
 	
 //	@ManyToOne

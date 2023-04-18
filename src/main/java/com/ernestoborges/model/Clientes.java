@@ -24,7 +24,6 @@ public class Clientes implements Serializable {
 //	@OneToMany(mappedBy = "clientes")
 //    private List<Processos> processos;
 
-	
 
 	public Long getId() {
 		return id;

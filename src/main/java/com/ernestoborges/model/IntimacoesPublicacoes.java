@@ -12,6 +12,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 @Entity
 @Table(name = "tb_intimacoes_e_publicacoes")
 public class IntimacoesPublicacoes implements Serializable {
@@ -32,7 +34,8 @@ public class IntimacoesPublicacoes implements Serializable {
 	@Column(name = "data")
     private Date data;
 	
-	@Column(name = "nome", nullable = false, length = 200)
+	@NotEmpty
+	@Column(nullable = false, columnDefinition = "text")
     private String texto;
 
 
