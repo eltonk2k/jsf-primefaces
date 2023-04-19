@@ -3,6 +3,7 @@ package com.ernestoborges.repository;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
@@ -11,6 +12,7 @@ import com.ernestoborges.model.IntimacoesPublicacoes;
 public class IntimacoesPublicacoesRepository implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
+	@Inject
 	private EntityManager manager;
 	
 	public IntimacoesPublicacoesRepository() {

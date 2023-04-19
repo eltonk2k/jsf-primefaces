@@ -3,6 +3,7 @@ package com.ernestoborges.repository;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -14,6 +15,7 @@ import com.ernestoborges.model.Clientes;
 public class ClientesRepository implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
+	@Inject
 	private EntityManager manager;
 	
 	public ClientesRepository() {
