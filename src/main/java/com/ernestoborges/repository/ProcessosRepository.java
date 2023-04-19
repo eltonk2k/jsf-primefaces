@@ -25,9 +25,9 @@ public class ProcessosRepository implements Serializable {
 	}
 
 	public List<Processos> buscaProcesso(String numeroDoprocesso) {
-		String jpql ="from Processos where numeroDoprocesso like :numeroDoprocesso";
+		String jpql ="from Processos where numero_do_processo like :numero_do_processo";
 		TypedQuery<Processos> query = manager.createQuery(jpql, Processos.class);
-		query.setParameter("numeroDoprocesso", numeroDoprocesso + "%");
+		query.setParameter("numero_do_processo", numeroDoprocesso + "%");
 		return query.getResultList();
 	}
 	

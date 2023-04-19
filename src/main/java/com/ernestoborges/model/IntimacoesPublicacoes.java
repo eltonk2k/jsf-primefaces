@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -19,25 +21,27 @@ import org.hibernate.validator.constraints.NotEmpty;
 public class IntimacoesPublicacoes implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@Column(name = "tipo", nullable = false, length = 20)
 	private String tipo;
-	
+
 	@Column(name = "processo", nullable = false, length = 30)
 	private String processo;
-	
+
 	@Temporal(TemporalType.DATE)
 	@Column(name = "data")
-    private Date data;
-	
+	private Date data;
+
 	@NotEmpty
 	@Column(nullable = false, columnDefinition = "text")
-    private String texto;
+	private String texto;
 
+//	@ManyToOne
+//	@JoinColumn(name = "processo", nullable = false)
+//	private Processos processos;
 
 	public Long getId() {
 		return id;
@@ -79,6 +83,14 @@ public class IntimacoesPublicacoes implements Serializable {
 		this.texto = texto;
 	}
 
+//	public Processos getProcessos() {
+//		return processos;
+//	}
+//
+//	public void setProcessos(Processos processos) {
+//		this.processos = processos;
+//	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -103,5 +115,5 @@ public class IntimacoesPublicacoes implements Serializable {
 			return false;
 		return true;
 	}
-	
+
 }
