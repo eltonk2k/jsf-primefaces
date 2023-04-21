@@ -1,6 +1,7 @@
 package com.ernestoborges.controller;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -14,20 +15,19 @@ import com.ernestoborges.repository.IntimacoesPublicacoesRepository;
 public class IntimacoesPublicacoesBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
-	@Inject
-	private IntimacoesPublicacoes intimacoesPublicacoes;
+	
+	private List<IntimacoesPublicacoes> ListaIntimacoesPublicacoes;
 	
 	@Inject
 	private IntimacoesPublicacoesRepository intimacoesPublicacoesRepository;
 	
 	
-	public void salvar() {
-		intimacoesPublicacoesRepository.salvarTipointimacoesPublicacoes(intimacoesPublicacoes);
+	public void todosIntimacoesPublicacoes() {
+		ListaIntimacoesPublicacoes = intimacoesPublicacoesRepository.buscaTodosIntimacoesPublicacoes();
 	}
 	
-	
-	public IntimacoesPublicacoes getIntimacoesPublicacoes() {
-		return intimacoesPublicacoes;
+	public List<IntimacoesPublicacoes> getListaProcessos() {
+		return ListaIntimacoesPublicacoes;
 	}
 
 }

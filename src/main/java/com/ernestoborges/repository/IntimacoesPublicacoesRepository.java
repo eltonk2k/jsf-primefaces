@@ -39,6 +39,11 @@ public class IntimacoesPublicacoesRepository implements Serializable {
 		return query.getResultList();
 	}
 	
+	
+	public List<IntimacoesPublicacoes> buscaTodosIntimacoesPublicacoes() {
+		return manager.createQuery("from IntimacoesPublicacoes", IntimacoesPublicacoes.class).getResultList();
+	}
+	
 	public IntimacoesPublicacoes salvarTipointimacoesPublicacoes(IntimacoesPublicacoes tipo) {
 		return manager.merge(tipo);
 	}

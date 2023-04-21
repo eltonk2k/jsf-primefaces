@@ -33,6 +33,12 @@ public class ProcessosRepository implements Serializable {
 		return query.getResultList();
 	}
 	
+	
+	public List<Processos> buscaTodosProcessos() {
+		return manager.createQuery("from Processos", Processos.class).getResultList();
+	}
+	
+	
 	public Processos salvarProcesso(Processos processos) {
 		return manager.merge(processos);
 	}

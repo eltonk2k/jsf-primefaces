@@ -6,47 +6,43 @@
  	xmlns:p="http://primefaces.org/ui">
 <h:head>
 
-
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 <title>Gestão de Processos Ernesto Borges Advogados</title>
 
 <h:outputStylesheet library="ernestoborges" name="estilo.css" />
 
+<f:metadata>
+	<f:viewAction action="#{processosBean.todosProcessos}"/>
+</f:metadata>
+		
 </h:head>
 
 <h:body>
 	<header>
 		<h:graphicImage library="ernestoborges" name="logo.png" />
 	</header>
-
+	
+	<h2>Cadastro de Processos</h2>
+	
 	<div id="conteudo">
-		<h:form id="formulario">
-			<h:panelGrid columns="2">
-				<p:outputLabel value="numero processo: " for="numeroProcesso"/>
-				<h:panelGroup>
-					<p:inputText id="numeroProcesso" value="#{processosBean.processos.numeroDoprocesso}" required="true"/>
-					<p:message for="numeroProcesso"></h:message>
-				</h:panelGroup>
-				
-				
-				<p:outputLabel value="Tipo de Processo: " for="tipo" />
-				<p:inputText id="tipo" value="#{intimacoesPublicacoesBean.intimacoesPublicacoes.tipo}"/>
-				
-				<p:outputLabel value="Data: " for="data" />
-				<h:panelGroup>
-					<p:inputText id="data" value="#{intimacoesPublicacoesBean.intimacoesPublicacoes.data}"
-							label="Data">
-						<f:convertDateTime pattern="dd/MM/yyyy" />
-					</p:inputText>
-					<p:message for="data"/>
-				</h:panelGroup>
-				
-				<p:outputLabel />
-				<p:commandButton value="Salvar" actionListener="#{processosBean.salvar}"
-					update="@form"/>
-			</h:panelGrid>
+	<h:form>
+	
+		<p:dataTable value="#{processosBean.listaProcessos}"
+			var="processos" emptyMessage="Nenhuma informação a ser exibida"
+			paginator="true" rows="12" paginatorPosition="bottom">
+			<p:column headerText="Processos" sortBy="#{processos.numeroDoprocesso}">
+				<h:outputText value="#{processos.numeroDoprocesso}"/>
+			</p:column>
 			
-		</h:form>	
+			<p:column headerText="Clientes" sortBy="#{processos.clientes.nome}">
+				<h:outputText value="#{processos.clientes.nome}"/>
+			</p:column>
+		</p:dataTable>
+	
+	</h:form>
+		
+		
+		
 	</div>
 </h:body>
 

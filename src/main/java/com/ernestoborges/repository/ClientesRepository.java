@@ -35,6 +35,10 @@ public class ClientesRepository implements Serializable {
 //		return query.getResultList();
 //	}
 	
+	public List<Clientes> buscaTodosClientes() {
+		return manager.createQuery("from Clientes", Clientes.class).getResultList();
+	}
+	
 	public List<Clientes> buscaCliente(String nome) {
 		CriteriaBuilder criteriaBuilder = manager.getCriteriaBuilder();
 		CriteriaQuery<Clientes> criteriaQuery = criteriaBuilder.createQuery(Clientes.class);
