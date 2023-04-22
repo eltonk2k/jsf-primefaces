@@ -11,6 +11,7 @@ import com.ernestoborges.model.Clientes;
 import com.ernestoborges.model.Processos;
 import com.ernestoborges.repository.ClientesRepository;
 import com.ernestoborges.repository.ProcessosRepository;
+import com.ernestoborges.util.FacesMessages;
 
 @Named
 @ViewScoped
@@ -23,11 +24,25 @@ public class ProcessosBean implements Serializable {
 	
 	private List<Processos> listaProcessos;
 	
+	private String termoPesquisa;
+	
+	@Inject
+	private FacesMessages facesMessages;
+	
 	
 	@Inject
 	private ClientesRepository clientesRepository;
 	
 	private List<Clientes> listaClientes;
+	
+	
+	
+	public void pesquisar() {
+		listaProcessos = processosRepository.buscaProcesso(termoPesquisa);
+		if (listaProcessos.isEmpty()) {
+			facesMessages.info("Consulta não encontrada.");
+		}
+	}
 	
 	
 	public void todosProcessos() {
@@ -47,6 +62,12 @@ public class ProcessosBean implements Serializable {
 		return listaClientes;
 	}
 	
+	public String getTermoPesquisa() {
+		return termoPesquisa;
+	}
 	
+	public void setTermoPesquisa(String termoPesquisa) {
+		this.termoPesquisa = termoPesquisa;
+	}
 
 }

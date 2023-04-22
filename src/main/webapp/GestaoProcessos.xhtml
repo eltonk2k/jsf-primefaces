@@ -1,35 +1,63 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
  	xmlns:h="http://xmlns.jcp.org/jsf/html"
  	xmlns:f="http://xmlns.jcp.org/jsf/core"
- 	xmlns:p="http://primefaces.org/ui">
-<h:head>
+ 	xmlns:p="http://primefaces.org/ui"
+ 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+ 	template="WEB-INF/template/Layout.xhtml">
 
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-<title>Gestão de Processos Ernesto Borges Advogados</title>
+<ui:define name="titulo">
+	Cadastro de Processos
+</ui:define>
 
-<h:outputStylesheet library="ernestoborges" name="estilo.css" />
+<ui:define name="conteudo">
 
-<f:metadata>
-	<f:viewAction action="#{processosBean.todosProcessos}"/>
-</f:metadata>
-		
-</h:head>
-
-<h:body>
-	<header>
-		<h:graphicImage library="ernestoborges" name="logo.png" />
-	</header>
+	<f:metadata>
+		<f:viewAction action="#{processosBean.todosProcessos}"/>
+	</f:metadata>
 	
-	<h2>Cadastro de Processos</h2>
 	
-	<div id="conteudo">
 	<h:form>
-	
-		<p:dataTable value="#{processosBean.listaProcessos}"
+		<p:messages autoUpdate="true"/>
+		
+		<p:toolbar>
+			<f:facet name="left">
+				
+				<p:inputText  placeholder="Digite a pesquisa" size="30" value="#{processosBean.termoPesquisa}"/>
+				
+				<p:commandButton value="Pesquisar" icon="fa fa-search"
+					actionListener="#{processosBean.pesquisar}" update="processosDataTable"/>
+				
+				<span class="ui-separator">
+		            <span class="ui-icon ui-icon-grip-dotted-vertical" />
+		        </span>
+		        
+		        <p:commandButton value="Novo" icon="fa fa-plus"
+		        	onclick="PF('processoDialogWidgetVar').show()"/>
+				
+				<span class="ui-separator">
+		            <span class="ui-icon ui-icon-grip-dotted-vertical" />
+		        </span>
+		        
+		        <p:commandButton title="Editar" icon="fa fa-edit"/>
+		        <p:commandButton title="Excluir" icon="fa fa-trash"/>
+		        
+				<span class="ui-separator">
+		            <span class="ui-icon ui-icon-grip-dotted-vertical" />
+		        </span>
+		        
+		        <p:commandButton title="Exportar Para Excel" icon="fa fa-file-excel-o"/>
+		        
+			</f:facet>
+		</p:toolbar>
+		
+		<p:spacer height="20px"/>
+		
+		<p:dataTable id="processosDataTable" value="#{processosBean.listaProcessos}"
 			var="processos" emptyMessage="Nenhuma informação a ser exibida"
 			paginator="true" rows="12" paginatorPosition="bottom">
+			
 			<p:column headerText="Processos" sortBy="#{processos.numeroDoprocesso}">
 				<h:outputText value="#{processos.numeroDoprocesso}"/>
 			</p:column>
@@ -38,12 +66,28 @@
 				<h:outputText value="#{processos.clientes.nome}"/>
 			</p:column>
 		</p:dataTable>
+		
+		<p:dialog header="Novo Processo" widgetVar="processoDialogWidgetVar"
+			modal="true" resizable="false" closeOnEscape="true">
+			<h:panelGrid columns="2">
+				<p:outputLabel value="Processo: " for="processo"/>
+				<p:inputText id="processo" size="80" maxlength="80"/>
+				<p:autoComplete id="processo"/>
+				
+				<p:outputLabel value="Cliente: " for="nome"/>
+				<p:inputText id="nome" size="80" maxlength="80"/>  
+				<p:autoComplete id="nome"/>
+				
+				<h:outputLabel/>
+				<p:commandButton value="Salvar"/>
+				
+			</h:panelGrid>
+		</p:dialog>
 	
 	</h:form>
 		
 		
 		
-	</div>
-</h:body>
+</ui:define>
 
-</html>
+</ui:composition>
