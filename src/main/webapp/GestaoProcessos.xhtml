@@ -74,9 +74,12 @@
 				<p:inputText id="processo" size="80" maxlength="80"/>
 				<p:autoComplete id="processo"/>
 				
-				<p:outputLabel value="Cliente: " for="nome"/>
-				<p:inputText id="nome" size="80" maxlength="80"/>  
-				<p:autoComplete id="nome"/>
+				<p:outputLabel value="Cliente: " for="clientes"/>
+				<p:autoComplete id="clientes" size="80" 
+					completeMethod="#{processosBean.completarClientes}"
+					converter="#{processosBean.clientesConverter}"
+					var="clientes"
+					itemLabel="#{clientes.nome}" itemValue="#{clientes}"/>
 				
 				<h:outputLabel/>
 				<p:commandButton value="Salvar"/>

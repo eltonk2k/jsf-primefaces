@@ -35,6 +35,7 @@ public class ProcessosBean implements Serializable {
 	
 	private List<Clientes> listaClientes;
 	
+	private ClientesConverter clientesConverter;
 	
 	
 	public void pesquisar() {
@@ -47,6 +48,13 @@ public class ProcessosBean implements Serializable {
 	
 	public void todosProcessos() {
 		listaProcessos = processosRepository.buscaTodosProcessos();
+	}
+	
+	public List<Clientes> completarClientes(String termo) {
+		List<Clientes> listaClientes = clientesRepository.buscaCliente(termo);
+		
+		clientesConverter = new ClientesConverter(listaClientes);
+		return listaClientes;
 	}
 	
 	public List<Processos> getListaProcessos() {
@@ -68,6 +76,10 @@ public class ProcessosBean implements Serializable {
 	
 	public void setTermoPesquisa(String termoPesquisa) {
 		this.termoPesquisa = termoPesquisa;
+	}
+	
+	public ClientesConverter getClientesConverter() {
+		return clientesConverter;
 	}
 
 }
