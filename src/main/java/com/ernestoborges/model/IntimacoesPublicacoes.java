@@ -8,11 +8,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -24,18 +24,21 @@ public class IntimacoesPublicacoes implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
+	
+	@NotEmpty
 	@Column(name = "tipo", nullable = false, length = 20)
 	private String tipo;
 
 	@Column(name = "processo", nullable = false, length = 30)
 	private String processo;
 
+	@NotNull
+	@Past
 	@Temporal(TemporalType.DATE)
 	@Column(name = "data")
 	private Date data;
-
-	@NotEmpty
+	
+	
 	@Column(nullable = false, columnDefinition = "text")
 	private String texto;
 

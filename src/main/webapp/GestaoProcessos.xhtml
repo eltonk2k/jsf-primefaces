@@ -15,26 +15,30 @@
 
 	<f:metadata>
 		<f:viewAction action="#{processosBean.todosProcessos}"/>
+		<f:viewAction action="#{intimacoesPublicacoesBean.todosIntimacoesPublicacoes}"/>
 	</f:metadata>
 	
 	
-	<h:form>
-		<p:messages autoUpdate="true"/>
+	<h:form id="frm">
+		<p:messages id="messages"/>
 		
 		<p:toolbar>
 			<f:facet name="left">
 				
-				<p:inputText  placeholder="Digite a pesquisa" size="30" value="#{processosBean.termoPesquisa}"/>
+				<p:inputText id="termoPesquisa" placeholder="Digite a pesquisa" size="30" value="#{processosBean.termoPesquisa}"/>
 				
 				<p:commandButton value="Pesquisar" icon="fa fa-search"
-					actionListener="#{processosBean.pesquisar}" update="processosDataTable"/>
+					actionListener="#{processosBean.pesquisar}" update="processosDataTable messages"
+					process="@this termoPesquisa"/>
 				
 				<span class="ui-separator">
 		            <span class="ui-icon ui-icon-grip-dotted-vertical" />
 		        </span>
 		        
 		        <p:commandButton value="Novo" icon="fa fa-plus"
-		        	onclick="PF('processoDialogWidgetVar').show()"/>
+		        	actionListener="#{processosBean.criarNovoProcesso}"
+		        	oncomplete="PF('processoDialogWidgetVar').show()"
+		        	update="ProcessoDialog" process="@this"/>
 				
 				<span class="ui-separator">
 		            <span class="ui-icon ui-icon-grip-dotted-vertical" />
@@ -67,22 +71,29 @@
 			</p:column>
 		</p:dataTable>
 		
-		<p:dialog header="Novo Processo" widgetVar="processoDialogWidgetVar"
+		<p:dialog id="ProcessoDialog" header="Novo Processo" widgetVar="processoDialogWidgetVar"
 			modal="true" resizable="false" closeOnEscape="true">
-			<h:panelGrid columns="2">
+			<p:messages id="processoMenssages"/>
+			
+			<h:panelGrid id="processoPanelGrid" columns="2"
+				rendered="#{processosBean.processos ne null}">
 				<p:outputLabel value="Processo: " for="processo"/>
-				<p:inputText id="processo" size="80" maxlength="80"/>
+				<p:inputText id="processo" size="80" maxlength="80"
+				value="#{processosBean.processos.numeroDoprocesso}"/>
 				<p:autoComplete id="processo"/>
 				
 				<p:outputLabel value="Cliente: " for="clientes"/>
-				<p:autoComplete id="clientes" size="80" 
+				<p:autoComplete id="clientes" size="80"
+					value="#{processosBean.processos.clientes}"
 					completeMethod="#{processosBean.completarClientes}"
 					converter="#{processosBean.clientesConverter}"
 					var="clientes"
 					itemLabel="#{clientes.nome}" itemValue="#{clientes}"/>
 				
 				<h:outputLabel/>
-				<p:commandButton value="Salvar"/>
+				<p:commandButton value="Salvar" actionListener="#{processosBean.salvar}"
+					update="processoPanelGrid processoMenssages"
+					oncomplete="if (!args.validationFailed) PF('processoDialogWidgetVar').hide()" process="ProcessoDialog"/>
 				
 			</h:panelGrid>
 		</p:dialog>
