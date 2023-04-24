@@ -20,9 +20,10 @@
 	
 	
 	<h:form id="frm">
+		
 		<p:messages id="messages"/>
 		
-		<p:toolbar>
+		<p:toolbar id="toolbar">
 			<f:facet name="left">
 				
 				<p:inputText id="termoPesquisa" placeholder="Digite a pesquisa" size="30" value="#{processosBean.termoPesquisa}"/>
@@ -38,20 +39,41 @@
 		        <p:commandButton value="Novo" icon="fa fa-plus"
 		        	actionListener="#{processosBean.criarNovoProcesso}"
 		        	oncomplete="PF('processoDialogWidgetVar').show()"
-		        	update="ProcessoDialog" process="@this"/>
+		        	update="processoDialog" process="@this">
+		        	<p:resetInput target="processoDialog"/>
+		        </p:commandButton>
+		        	
 				
 				<span class="ui-separator">
 		            <span class="ui-icon ui-icon-grip-dotted-vertical" />
 		        </span>
-		        
-		        <p:commandButton title="Editar" icon="fa fa-edit"/>
-		        <p:commandButton title="Excluir" icon="fa fa-trash"/>
+
+					<p:commandButton title="Editar" icon="fa fa-edit"
+						disabled="#{not processosBean.processoSelecionado}"
+						actionListener="#{processosBean.editarProcessos}" 
+						oncomplete="PF('processoDialogWidgetVar').show()"
+						update="processoDialog" process="@this">
+						<p:resetInput target="processoDialog"/>
+					</p:commandButton>
+
+					<p:commandButton title="Excluir" icon="fa fa-trash"
+			        	disabled="#{not processosBean.processoSelecionado}"
+			        	actionListener="#{processosBean.excluirProcessos}"
+			        	update="messages processosDataTable toolbar"
+			        	process="@this">
+		        		<p:confirm icon="ui-icon-alert" header="Confirmar exclusão" 
+		        		message="Deseja excluir o Processo?"/>
+		        	</p:commandButton>
+		        	
 		        
 				<span class="ui-separator">
 		            <span class="ui-icon ui-icon-grip-dotted-vertical" />
 		        </span>
 		        
-		        <p:commandButton title="Exportar Para Excel" icon="fa fa-file-excel-o"/>
+		        <p:commandButton title="Exportar Para Excel" icon="fa fa-file-excel-o"
+		        	ajax="false">
+		        	<p:dataExporter type="xls" target="processosDataTable" fileName="Processos"/>
+		        </p:commandButton>
 		        
 			</f:facet>
 		</p:toolbar>
@@ -60,7 +82,12 @@
 		
 		<p:dataTable id="processosDataTable" value="#{processosBean.listaProcessos}"
 			var="processos" emptyMessage="Nenhuma informação a ser exibida"
-			paginator="true" rows="12" paginatorPosition="bottom">
+			paginator="true" rows="12" paginatorPosition="bottom"
+			selectionMode="single" selection="#{processosBean.processos}" rowKey="#{processos.id}">
+			
+			<p:ajax event="rowSelect" update="frm:toolbar"/>
+			
+			<p:ajax event="rowUnSelect" update="frm:toolbar"/>
 			
 			<p:column headerText="Processos" sortBy="#{processos.numeroDoprocesso}">
 				<h:outputText value="#{processos.numeroDoprocesso}"/>
@@ -71,9 +98,11 @@
 			</p:column>
 		</p:dataTable>
 		
-		<p:dialog id="ProcessoDialog" header="Novo Processo" widgetVar="processoDialogWidgetVar"
+		<p:dialog id="processoDialog" header="Novo Processo" widgetVar="processoDialogWidgetVar"
 			modal="true" resizable="false" closeOnEscape="true">
 			<p:messages id="processoMenssages"/>
+			
+			<p:defaultCommand target="salvarCommandButton" scope="processoDialog"/>
 			
 			<h:panelGrid id="processoPanelGrid" columns="2"
 				rendered="#{processosBean.processos ne null}">
@@ -91,9 +120,9 @@
 					itemLabel="#{clientes.nome}" itemValue="#{clientes}"/>
 				
 				<h:outputLabel/>
-				<p:commandButton value="Salvar" actionListener="#{processosBean.salvar}"
+				<p:commandButton id="salvarCommandButton" value="Salvar" actionListener="#{processosBean.salvar}"
 					update="processoPanelGrid processoMenssages"
-					oncomplete="if (!args.validationFailed) PF('processoDialogWidgetVar').hide()" process="ProcessoDialog"/>
+					oncomplete="if (!args.validationFailed) PF('processoDialogWidgetVar').hide()" process="processoDialog"/>
 				
 			</h:panelGrid>
 		</p:dialog>

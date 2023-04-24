@@ -53,16 +53,23 @@ public class ProcessosBean implements Serializable {
 		processos = new Processos();
 	}
 	
+	public void editarProcessos() {
+		clientesConverter = new ClientesConverter(Arrays.asList(processos.getClientes()));
+	}
+	
 	public void salvar() {
 		cadastroProcessosService.salvar(processos);
-		if (jaHouvePesquisa()) {
-			pesquisar();
-		} else {
-			todosProcessos();
-		}
+		atualizarProcessos();
 		facesMessages.info("Processo salvo com Sucesso!");
 		PrimeFaces.current().ajax().update(Arrays.asList("frm:processosDataTable", "frm:processosDataTable"));
 		
+	}
+	
+	public void excluirProcessos() {
+		cadastroProcessosService.excluir(processos);
+		processos = null;
+		atualizarProcessos();
+		facesMessages.info("Processo excluído com Sucesso!");
 	}
 	
 	
@@ -82,6 +89,14 @@ public class ProcessosBean implements Serializable {
 		
 		clientesConverter = new ClientesConverter(listaClientes);
 		return listaClientes;
+	}
+	
+	public void atualizarProcessos() {
+		if (jaHouvePesquisa()) {
+			pesquisar();
+		} else {
+			todosProcessos();
+		}
 	}
 	
 	private boolean jaHouvePesquisa() {
@@ -115,6 +130,14 @@ public class ProcessosBean implements Serializable {
 	
 	public Processos getProcessos() {
 		return processos;
+	}
+	
+	public void setProcessos(Processos processos) {
+		this.processos = processos;
+	}
+	
+	public boolean isProcessoSelecionado() {
+		return processos != null && processos.getId() != null;
 	}
 
 }
