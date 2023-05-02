@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  app:
+    image: openjdk:8-jdk-alpine
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./app:/usr/src/app
+    working_dir: /usr/src/app
+    command: sh -c "wget https://download.java.net/java/GA/jdk11/9/GPL/openjdk-11.0.2_linux-x64_bin.tar.gz && tar -xzf openjdk-11.0.2_linux-x64_bin.tar.gz && export PATH=$PATH:/usr/src/app/jdk-11.0.2/bin && ./mvnw package && java -jar target/myapp.war"
+    environment:
+      - DB_URL=jdbc:mysql://db:3306/mydb
+      - DB_USERNAME=root
+      - DB_PASSWORD=
+
+  db:
+    image: mysql:5.7
+    environment:
+      - MYSQL_DATABASE=mydb
+      - MYSQL_ROOT_PASSWORD=
+    volumes:
+      - db-data:/var/lib/mysql
+
+volumes:
+  db-data:
